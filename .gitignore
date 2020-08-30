@@ -1,0 +1,6 @@
+*.class
+*~
+*.bak
+ExampleLexer.java
+parser.java
+sym.java
