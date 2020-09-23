@@ -20,7 +20,7 @@ FILE=		ExampleScanner.java      parser.java    sym.java \
 
 dump: parserD.java $(FILE:java=class)
 
-run: testParse.txt lexTest.txt
+run: testParse.txt lexTest.txt orderPrec.txt
 
 testParse.txt: all
 		$(JAVA) -cp $(CP) ExampleParserTest testParse.txt > testParse-output.txt
@@ -30,9 +30,9 @@ lexTest.txt: all
 		$(JAVA) -cp $(CP) ExampleParserTest lexTest.txt > lexTest-output.txt
 		cat -n lexTest-output.txt
 
-ambig.txt: all
-		$(JAVA) -cp $(CP) ExampleParserTest ambig.txt > ambig-output.txt
-		cat -n ambig-output.txt
+orderPrec.txt: all
+		$(JAVA) -cp $(CP) ExampleParserTest orderPrec.txt > orderPrec-output.txt
+		cat -n orderPrec-output.txt
 
 all: ExampleScanner.java parser.java $(FILE:java=class)
 

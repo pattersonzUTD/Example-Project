@@ -1,15 +1,12 @@
 class Expr implements Token
 {
   int thisId;
-  Expr lhs, rhs;
   BinaryOp binOp;
   int intLit;
   String id;
-  public Expr(Expr l, BinaryOp b, Expr r)
+  public Expr(BinaryOp b)
   {
-    lhs = l;
     binOp = b;
-    rhs = r;
     thisId = 0;
   }
   public Expr(int i)
@@ -27,7 +24,7 @@ class Expr implements Token
   {
     String ret = "";
     if (thisId == 0)
-      ret = lhs.toString(t) + " " + binOp.toString(t) + " " + rhs.toString(t);
+      ret = "(" + binOp.toString(t) + ")";
     else if (thisId == 1)
       ret = Integer.toString(intLit);
     else

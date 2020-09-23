@@ -1,0 +1,9 @@
+var x;
+var y;
+var z;
+read x;
+read y;
+read z;
+\\should show y*z first
+z = x + y * z + z;
+print z;

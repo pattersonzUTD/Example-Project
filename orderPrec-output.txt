@@ -1,0 +1,9 @@
+Program:
+	var x;
+	var y;
+	var z;
+	read x;
+	read y;
+	read z;
+	z = ((x + (y * z)) + z);
+	print z;

@@ -84,8 +84,8 @@ optionalAsn ::=
             ;
 
 expr ::=
-     expr:lhs binaryOp:b expr:rhs
-     {: RESULT = new Expr(lhs,b,rhs); :}
+     binaryOp:b
+     {: RESULT = new Expr(b); :}
      |
      INTLIT:i
      {: RESULT = new Expr(i); :}
@@ -95,15 +95,15 @@ expr ::=
      ;
 
 binaryOp ::=
-         PLUS
-         {: RESULT = new BinaryOp("+"); :}
+         expr:lhs PLUS expr:rhs
+         {: RESULT = new BinaryOp(lhs, "+", rhs); :}
          |
-         MINUS
-         {: RESULT = new BinaryOp("-"); :}
+         expr:lhs MINUS expr:rhs
+         {: RESULT = new BinaryOp(lhs, "-", rhs); :}
          |
-         TIMES
-         {: RESULT = new BinaryOp("*"); :}
+         expr:lhs TIMES expr:rhs
+         {: RESULT = new BinaryOp(lhs, "*", rhs); :}
          |
-         DIVIDE
-         {: RESULT = new BinaryOp("/"); :}
+         expr:lhs DIVIDE expr:rhs
+         {: RESULT = new BinaryOp(lhs, "/", rhs); :}
          ;

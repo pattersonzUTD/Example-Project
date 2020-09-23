@@ -1,5 +1,5 @@
 Program:
 	var x;
 	read x;
-	x = x * 2;
+	x = (x * 2);
 	print x;
