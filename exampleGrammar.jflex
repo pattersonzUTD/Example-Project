@@ -20,27 +20,14 @@ import java_cup.runtime.*;
 %line
 %column
 %unicode
-%class ExampleLexer
-/*
- * NOTE: the above name ExampleLexer, will have to be changed here if
- * you chose to rename the lexer object.
- */
- 
+%class ExampleScanner
+
 %{
 
-/**
- * Return a new Symbol with the given token id, and with the current line and
- * column numbers.
- */
 Symbol newSym(int tokenId) {
     return new Symbol(tokenId, yyline, yycolumn);
 }
 
-/**
- * Return a new Symbol with the given token id, the current line and column
- * numbers, and the given token value.  The value is used for tokens such as
- * identifiers and numbers.
- */
 Symbol newSym(int tokenId, Object value) {
     return new Symbol(tokenId, yyline, yycolumn, value);
 }
@@ -61,6 +48,9 @@ id   			    = {letter}+
 intlit	      = {digit}+
 inlinecomment = {slash}{slash}.*\n
 whitespace    = [ \n\t\r]
+escapequote     = {slash}\"
+stringchar      = [[[^\\]&&[^\"]]&&[[^\n]&&[^\t]]]|{newline}|{tab}|{escapequote}|{slash}{slash}
+stringlit       = \"{stringchar}*\"
 
 
 
@@ -74,12 +64,13 @@ print		           { return newSym(sym.PRINT, "print"); }
 "+"                { return newSym(sym.PLUS, "+"); }
 "-"                { return newSym(sym.MINUS, "-"); }
 "/"                { return newSym(sym.DIVIDE, "/"); }
-"="                { return newSym(sym.ASSMNT, "="); }
+"="                { return newSym(sym.EQ, "="); }
 ";"                { return newSym(sym.SEMI, ";"); }
 var		             { return newSym(sym.VAR, "var"); }
 {id}               { return newSym(sym.ID, yytext()); }
 {intlit}           { return newSym(sym.INTLIT, new Integer(yytext())); }
 {inlinecomment}    { /* For this stand-alone lexer, print out comments. */}
 {whitespace}       { /* Ignore whitespace. */ }
+{stringlit}        { return newSym(sym.STR, new String(yytext())); }
 .                  { System.out.println("Illegal char, '" + yytext() +
                     "' line: " + yyline + ", column: " + yychar); } 

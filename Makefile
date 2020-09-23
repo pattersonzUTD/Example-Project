@@ -12,25 +12,38 @@ default: run
 .java.class:
 				$(JAVAC) -cp $(CP) $*.java
 
-FILE=		ExampleLexer.java      parser.java    sym.java \
-				ExampleLexerTest.java
+FILE=		ExampleScanner.java      parser.java    sym.java \
+				ExampleParserTest.java \
+				Asn.java Decl.java Expr.java OptionalAsn.java \
+				PrintVar.java Program.java ReadVar.java Stmt.java \
+				StmtList.java Token.java BinaryOp.java
 
-run: lexerTest.txt
+dump: parserD.java $(FILE:java=class)
 
-lexerTest.txt: all
-		$(JAVA) -cp $(CP) ExampleLexerTest lexTest.txt > lexTest-output.txt
+run: testParse.txt lexTest.txt
+
+testParse.txt: all
+		$(JAVA) -cp $(CP) ExampleParserTest testParse.txt > testParse-output.txt
+		cat -n testParse-output.txt
+
+lexTest.txt: all
+		$(JAVA) -cp $(CP) ExampleParserTest lexTest.txt > lexTest-output.txt
 		cat -n lexTest-output.txt
 
-all: ExampleLexer.java parser.java $(FILE:java=class)
+ambig.txt: all
+		$(JAVA) -cp $(CP) ExampleParserTest ambig.txt > ambig-output.txt
+		cat -n ambig-output.txt
+
+all: ExampleScanner.java parser.java $(FILE:java=class)
 
 clean:
-		rm -f *.class *~ *.bak ExampleLexer.java parser.java sym.java
+		rm -f *.class *~ *.bak ExampleScanner.java parser.java sym.java
 
-ExampleLexer.java: exampleGrammar.jflex
+ExampleScanner.java: exampleGrammar.jflex
 		$(JFLEX) exampleGrammar.jflex
 
 parser.java: exampleTokens.cup
-		$(CUP) -interface < exampleTokens.cup
+		$(CUP) -interface -progress < exampleTokens.cup
 
 parserD.java: exampleTokens.cup
 		$(CUP) -interface -dump < exampleTokens.cup

@@ -9,16 +9,101 @@ terminal MINUS;
 terminal DIVIDE;
 terminal SEMI;
 terminal EQ;
-terminal ASSMNT;
-
 terminal String VAR;
 
 terminal String ID;
+terminal String STR;
 terminal int INTLIT;
 
-/*
- * this dummy token is necessary, since at least one non-terminal is
- * required to run cup
- */
-non terminal dummy;
-dummy ::= ;
+
+non terminal Program program;
+non terminal StmtList stmtList;
+non terminal Stmt stmt;
+non terminal Decl decl;
+non terminal Asn asn;
+non terminal ReadVar readVar;
+non terminal PrintVar printVar;
+non terminal OptionalAsn optionalAsn;
+non terminal Expr expr;
+non terminal BinaryOp binaryOp;
+
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
+
+program ::= stmtList:s
+        {: RESULT = new Program(s);:}
+        ;
+
+stmtList ::=
+         stmt:s stmtList:sl  
+         {: RESULT = new StmtList(s, sl); :}
+         |
+         stmt:s
+         {: RESULT = new StmtList(s); :}
+         ;        
+
+stmt ::=
+     asn:a
+     {: RESULT = a; :}
+     |
+     decl:d
+     {: RESULT = d; :}
+     |
+     readVar:r
+     {: RESULT = r; :}
+     |
+     printVar:p
+     {: RESULT = p; :}
+     ;
+
+decl ::=
+     VAR ID:i optionalAsn:o SEMI
+     {: RESULT = new Decl(i,o); :}
+     ;    
+
+asn ::=
+    ID:i EQ expr:e SEMI
+    {: RESULT = new Asn(i,e); :}
+    ;
+
+readVar ::=
+        READ ID:i SEMI
+        {: RESULT = new ReadVar(i); :}
+        ; 
+
+printVar ::=
+         PRINT ID:i SEMI
+         {: RESULT = new PrintVar(i); :}
+         ;
+
+optionalAsn ::=
+            EQ expr:e
+            {: RESULT = new OptionalAsn(e); :}
+            |
+            {: RESULT = new OptionalAsn(); :}
+            ;
+
+expr ::=
+     expr:lhs binaryOp:b expr:rhs
+     {: RESULT = new Expr(lhs,b,rhs); :}
+     |
+     INTLIT:i
+     {: RESULT = new Expr(i); :}
+     |
+     ID:i
+     {: RESULT = new Expr(i); :}
+     ;
+
+binaryOp ::=
+         PLUS
+         {: RESULT = new BinaryOp("+"); :}
+         |
+         MINUS
+         {: RESULT = new BinaryOp("-"); :}
+         |
+         TIMES
+         {: RESULT = new BinaryOp("*"); :}
+         |
+         DIVIDE
+         {: RESULT = new BinaryOp("/"); :}
+         ;
