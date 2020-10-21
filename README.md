@@ -1,7 +1,7 @@
 # Example-Project
-Program       StmtList
-StmtList      Stmt
-              | Stmt StmtList 
+Program       → StmtList <br />
+StmtList      → Stmt <br />
+              | Stmt StmtList <br /> 
 Stmt          →	Decl<br />
               |	Asn<br />
               |	ReadVar<br />
