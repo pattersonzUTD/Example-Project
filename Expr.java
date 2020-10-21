@@ -4,7 +4,7 @@ class Expr implements Token
   BinaryOp binOp;
   int intLit;
   String id;
-  public Expr(BinaryOp b)
+  public Expr( BinaryOp b)
   {
     binOp = b;
     thisId = 0;

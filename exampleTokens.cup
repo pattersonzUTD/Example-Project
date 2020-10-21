@@ -95,15 +95,19 @@ expr ::=
      ;
 
 binaryOp ::=
-         expr:lhs PLUS expr:rhs
-         {: RESULT = new BinaryOp(lhs, "+", rhs); :}
+         expr:lhs PLUS  expr:rhs
+         {:
+         BinaryOp b = new BinaryOp(lhs, rhs);
+         b.setSym("+");
+         RESULT = b;
+         :}
          |
-         expr:lhs MINUS expr:rhs
+         expr:lhs MINUS  expr:rhs
          {: RESULT = new BinaryOp(lhs, "-", rhs); :}
          |
-         expr:lhs TIMES expr:rhs
+         expr:lhs TIMES  expr:rhs
          {: RESULT = new BinaryOp(lhs, "*", rhs); :}
          |
-         expr:lhs DIVIDE expr:rhs
+         expr:lhs DIVIDE  expr:rhs
          {: RESULT = new BinaryOp(lhs, "/", rhs); :}
          ;
