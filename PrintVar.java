@@ -8,9 +8,13 @@ class PrintVar extends Stmt implements Token
 
   public String toString(int t)
   {
-    String tabs = "";
-    for (int i = 0; i < t; ++i)
-      tabs += "\t";
-    return tabs + "print " + id + ";" + super.toString(t);
+    return T(t) + "print " + id + ";" + super.toString(t);
+  }
+
+  public void typeCheck() throws ExampleException
+  {
+    String thisType = table.getType(id);
+    if (thisType.equals(""))
+      throw new ExampleException("Error: " + id + " not declared");
   }
 }

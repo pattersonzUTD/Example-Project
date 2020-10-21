@@ -1,0 +1,4 @@
+Program:
+	var x;
+	varf x;
+Error: x can't be redeclared

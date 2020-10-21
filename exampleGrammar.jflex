@@ -11,6 +11,7 @@
 import java_cup.runtime.*;
 
 
+
 %%
 /*-*
  * LEXICAL FUNCTIONS:
@@ -46,6 +47,8 @@ letter        = [A-Za-z]
 digit         = [0-9]
 id   			    = {letter}+ 
 intlit	      = {digit}+
+floatend      = (f|F)
+floatlit      = {intlit}{floatend}|{intlit}?.{intlit}{floatend}
 inlinecomment = {slash}{slash}.*\n
 whitespace    = [ \n\t\r]
 escapequote     = {slash}\"
@@ -67,10 +70,12 @@ print		           { return newSym(sym.PRINT, "print"); }
 "="                { return newSym(sym.EQ, "="); }
 ";"                { return newSym(sym.SEMI, ";"); }
 var		             { return newSym(sym.VAR, "var"); }
+varf               { return newSym(sym.VARF, "varf"); }
 {id}               { return newSym(sym.ID, yytext()); }
 {intlit}           { return newSym(sym.INTLIT, new Integer(yytext())); }
 {inlinecomment}    { /* For this stand-alone lexer, print out comments. */}
 {whitespace}       { /* Ignore whitespace. */ }
 {stringlit}        { return newSym(sym.STR, new String(yytext())); }
+{floatlit}         { return newSym(sym.FLOATLIT, new Double(yytext().substring(0,yytext().length()-1))); }
 .                  { System.out.println("Illegal char, '" + yytext() +
                     "' line: " + yyline + ", column: " + yychar); } 

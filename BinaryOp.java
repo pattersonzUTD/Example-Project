@@ -1,4 +1,4 @@
-class BinaryOp implements Token
+class BinaryOp extends ExampleToken implements Token
 {
   Expr lhs, rhs;
   String op;
@@ -24,4 +24,15 @@ class BinaryOp implements Token
   {
     return lhs.toString(t) + " " + op + " " + rhs.toString(t);
   }
+
+  public String typeCheck() throws ExampleException
+  {
+    String l,r;
+    l = lhs.typeCheck();
+    r = rhs.typeCheck();
+    if (l.equals("varf") || r.equals("varf"))
+      return "varf";
+    return "var";
+  }
+  
 }

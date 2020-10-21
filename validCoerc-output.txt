@@ -1,0 +1,8 @@
+Program:
+	varf x = 2.0;
+	var y;
+	read y;
+	y = (y + 2);
+	x = (x + y);
+	print x;
+Type checking complete!

@@ -1,4 +1,4 @@
-class StmtList implements Token
+class StmtList extends ExampleToken implements Token
 {
   StmtList stmtList;
   Stmt stmt;
@@ -19,5 +19,12 @@ class StmtList implements Token
       return stmt.toString(t) + stmtList.toString(t);
     else
       return stmt.toString(t);
+  }
+
+  public void typeCheck() throws ExampleException
+  {
+    stmt.typeCheck();
+    if (stmtList != null)
+      stmtList.typeCheck();
   }
 }

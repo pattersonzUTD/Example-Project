@@ -1,0 +1,6 @@
+varf x = 2.0f;
+var y;
+read y;
+y = y + 2;
+x = x + y;
+print x;

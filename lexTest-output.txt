@@ -10,3 +10,4 @@ Program:
 	var thIsIsAVaR;
 	thIsIsAVaR = 6;
 	print thIsIsAVaR;
+Type checking complete!

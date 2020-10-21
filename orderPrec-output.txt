@@ -7,3 +7,4 @@ Program:
 	read z;
 	z = ((x + (y * z)) + z);
 	print z;
+Type checking complete!

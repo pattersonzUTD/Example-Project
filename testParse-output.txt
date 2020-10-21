@@ -3,3 +3,4 @@ Program:
 	read x;
 	x = (x * 2);
 	print x;
+Type checking complete!

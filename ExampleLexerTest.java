@@ -1,36 +1,22 @@
 import java.io.*;
 import java_cup.runtime.*;
 
-public class ExampleParserTest{
+public class ExampleLexerTest{
 
-  public static void main(String[] args) throws Exception
-  {
-    Reader reader = null;
-    
-    if (args.length == 1) {
-      File input = new File(args[0]);
-      if (!input.canRead()) {
-        System.out.println("Error: could not read ["+input+"]");
-      }
-      reader = new FileReader(input);
+    public static void main(String[] args) {
+        Symbol sym;
+        try {
+            ExampleLexer lexer = new ExampleLexer(new FileReader(args[0]));
+            for (sym = lexer.next_token(); sym.sym != 0;
+                    sym = lexer.next_token()) {
+
+                System.out.println("Token " + sym +
+                    ", with value = " + sym.value + 
+                    "; at line " + sym.left + ", column " + sym.right);
+
+            }
+        }
+        catch (Exception e) {
+        }
     }
-    else {  
-      reader = new InputStreamReader(System.in);
-    }
-
-    ExampleScanner scanner = new ExampleScanner(reader);   // create scanner
-
-    parser parser = new parser(scanner); // create parser
-    Program program = null;
-
-    try { 
-      program = (Program) parser.parse().value;  // parse
-    }    
-    catch (Exception e) { 
-      e.printStackTrace(); 
-    }
-
-    System.out.print(program.toString(0));
-
-  }
 }

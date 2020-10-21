@@ -10,9 +10,17 @@ class Asn extends Stmt implements Token
 
   public String toString(int t)
   {
-    String tabs = "";
-    for (int i = 0; i < t; ++i)
-      tabs += "\t";
-    return tabs + id + " = " + expr.toString(t) + ";" + super.toString(t);
+    return T(t) + id + " = " + expr.toString(t) + ";" + super.toString(t);
+  }
+
+  public void typeCheck() throws ExampleException
+  {
+    String thisType = table.getType(id);
+    if (thisType.equals(""))
+      throw new ExampleException("Error: " + id + " not declared");
+      
+    String exprType = expr.typeCheck();
+    if (thisType.equals("var") && thisType.equals("varf"))
+      throw new ExampleException("Error: cannot convert varF to var");
   }
 }

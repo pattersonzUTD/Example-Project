@@ -9,12 +9,13 @@ terminal MINUS;
 terminal DIVIDE;
 terminal SEMI;
 terminal EQ;
-terminal String VAR;
+terminal VAR;
+terminal VARF;
 
 terminal String ID;
 terminal String STR;
 terminal int INTLIT;
-
+terminal double FLOATLIT;
 
 non terminal Program program;
 non terminal StmtList stmtList;
@@ -26,6 +27,7 @@ non terminal PrintVar printVar;
 non terminal OptionalAsn optionalAsn;
 non terminal Expr expr;
 non terminal BinaryOp binaryOp;
+non terminal Type type;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
@@ -57,9 +59,17 @@ stmt ::=
      ;
 
 decl ::=
-     VAR ID:i optionalAsn:o SEMI
-     {: RESULT = new Decl(i,o); :}
-     ;    
+     type:t ID:i optionalAsn:o SEMI
+     {: RESULT = new Decl(t,i,o); :}
+     ;
+
+type ::=
+     VAR
+     {: RESULT = new Type(false); :}
+     |
+     VARF
+     {: RESULT = new Type(true); :}
+     ;
 
 asn ::=
     ID:i EQ expr:e SEMI
@@ -89,6 +99,9 @@ expr ::=
      |
      INTLIT:i
      {: RESULT = new Expr(i); :}
+     |
+     FLOATLIT:f
+     {: RESULT = new Expr(f);  :}
      |
      ID:i
      {: RESULT = new Expr(i); :}

@@ -1,4 +1,4 @@
-class OptionalAsn implements Token
+class OptionalAsn extends ExampleToken implements Token
 {
   Expr expr;
   boolean exists;
@@ -16,5 +16,11 @@ class OptionalAsn implements Token
     if (!exists)
       return "";
     return " = " + expr.toString(t);
+  }
+  public String typeCheck() throws ExampleException
+  {
+    if (!exists)
+      return "";
+    return expr.typeCheck();
   }
 }
