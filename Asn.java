@@ -20,7 +20,7 @@ class Asn extends Stmt implements Token
       throw new ExampleException("Error: " + id + " not declared");
       
     String exprType = expr.typeCheck();
-    if (thisType.equals("var") && thisType.equals("varf"))
+    if (thisType.equals("var") && exprType.equals("varf"))
       throw new ExampleException("Error: cannot convert varF to var");
   }
 }
