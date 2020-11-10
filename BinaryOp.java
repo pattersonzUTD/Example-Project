@@ -25,14 +25,44 @@ class BinaryOp extends ExampleToken implements Token
     return lhs.toString(t) + " " + op + " " + rhs.toString(t);
   }
 
-  public String typeCheck() throws ExampleException
+  public FullType typeCheck() throws ExampleException
   {
-    String l,r;
+    FullType l,r;
     l = lhs.typeCheck();
     r = rhs.typeCheck();
-    if (l.equals("varf") || r.equals("varf"))
-      return "varf";
-    return "var";
+    if (l.isArray || r.isArray || l.isFunction || r.isFunction)
+      throw new ExampleException("Error bad type for binary op");
+    if (l.baseType.equals("varf"))
+      return l;
+    return r;
   }
-  
+  public Object execute()
+  {
+    Object l;
+    Object r;
+    l = lhs.execute();
+    r = rhs.execute();
+    float lF, rF;
+    if (l instanceof Integer)
+      lF = (Integer)l;
+    else
+      lF = (Float)l;
+    
+    if (r instanceof Integer)
+      rF = (Integer)r;
+    else
+      rF = (Float)r;
+    float res;
+    if (op.equals("+"))
+      res = lF + rF;
+    else if (op.equals("-"))
+      res = lF - rF;
+    else if (op.equals("*"))
+      res = lF * rF;
+    else
+      res = lF / rF;
+    if (l instanceof Float || r instanceof Float)
+      return new Float(res);
+    return new Integer((int)res);
+  }
 }

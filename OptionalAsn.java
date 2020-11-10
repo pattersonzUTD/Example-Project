@@ -17,10 +17,15 @@ class OptionalAsn extends ExampleToken implements Token
       return "";
     return " = " + expr.toString(t);
   }
-  public String typeCheck() throws ExampleException
+  public FullType typeCheck() throws ExampleException
   {
     if (!exists)
-      return "";
+      return null;
     return expr.typeCheck();
+  }
+
+  public Object execute()
+  {
+    return expr.execute();
   }
 }

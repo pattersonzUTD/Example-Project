@@ -5,4 +5,5 @@ abstract class Stmt extends ExampleToken implements Token
     return "\n";
   }
   public abstract void typeCheck() throws ExampleException;
+  public abstract void execute();
 }

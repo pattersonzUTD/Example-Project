@@ -1,0 +1,24 @@
+\\program takes in 3 pairs of numbers and calculates
+\\each pairs sum
+var a[3];
+var b[3];
+void input(var a[] var n)
+{
+  read a[n];
+}
+var getSum(var a var b)
+{
+  var c = a;
+  c = c + b;
+  return c;
+}
+input(a,0);
+input(b,0);
+print getSum(a[0],b[0]);
+input(a,1);
+input(b,1);
+print getSum(a[1],b[1]);
+input(a,2);
+input(b,2);
+print getSum(a[2],b[2]);
+

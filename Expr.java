@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 class Expr extends ExampleToken implements Token
 {
   int thisId;
@@ -5,6 +6,9 @@ class Expr extends ExampleToken implements Token
   int intLit;
   double floatLit;
   String id;
+  Expr inner;
+  FunCall funCall;
+  FullType datum;
   public Expr( BinaryOp b)
   {
     binOp = b;
@@ -25,6 +29,17 @@ class Expr extends ExampleToken implements Token
     floatLit = f;
     thisId = 3;
   }
+  public Expr(String i, Expr e)
+  {
+    id = i;
+    inner = e;
+    thisId = 4;
+  }
+  public Expr(FunCall f)
+  {
+    funCall = f;
+    thisId = 5;
+  }
 
   public String toString(int t)
   {
@@ -35,28 +50,70 @@ class Expr extends ExampleToken implements Token
       ret = Integer.toString(intLit);
     else if (thisId == 2)
       ret = id;
-    else
+    else if (thisId == 3)
       ret = Double.toString(floatLit);
+    else if (thisId == 4)
+      ret = id + "[" + inner.toString(t) + "]";
+    else
+      ret = funCall.toString(t);
     return ret;
   }
 
-  public String typeCheck() throws ExampleException
+  public FullType typeCheck() throws ExampleException
   {
-    String ret = "";
+    FullType ret;
     if (thisId == 0)
       ret = binOp.typeCheck();
     else if (thisId == 1)
-      ret = "var";
+      ret = new FullType("var");
     else if (thisId == 2)
       {
-        String thisType = table.getType(id);
-        if (thisType.equals(""))
+        FullType thisType = table.getType(id);
+        datum = thisType;
+        if (thisType == null)
           throw new ExampleException("Error: " + id + " not declared");
         ret = thisType;
       }
+    else if (thisId == 3)
+      ret = new FullType("varf");
+    else if (thisId == 4)
+      {
+        FullType thisType = table.getType(id);
+        datum = thisType;
+        FullType innerType = inner.typeCheck();
+        if (thisType == null || !thisType.isArray)
+          throw new ExampleException("Error: " + id + " not declared");
+        if (!innerType.baseType.equals("var"))
+          throw new ExampleException("Error: varf in array access");
+        ret = new FullType(thisType.baseType);
+      }
     else
-      ret = "varf";
+      {
+        FullType thisType = funCall.typeCheck();
+        if (thisType == null || thisType.baseType.equals("void"))
+          throw new ExampleException("Error: void function in expression or undeclared");
+        ret = thisType;
+      }
   return ret;
+  
+  }
 
-}
+  public Object execute()
+  {
+    Object ret;
+    if (thisId == 0)
+      ret = binOp.execute();
+    else if (thisId == 1)
+      ret = new Integer(intLit);
+    else if (thisId == 2)
+      ret = datum.value;
+    else if (thisId == 3)
+      ret = new Float(floatLit);
+    else if (thisId == 4)
+      ret = ((ArrayList<Object>)datum.value).get((Integer)inner.execute());
+    else
+        ret = funCall.execute();
+    return ret;
+
+  }
 }

@@ -11,6 +11,15 @@ terminal SEMI;
 terminal EQ;
 terminal VAR;
 terminal VARF;
+terminal LPAREN;
+terminal RPAREN;
+terminal COMMA;
+terminal LBRACE;
+terminal RBRACE;
+terminal LBRKT;
+terminal RBRKT;
+terminal VOID;
+terminal RETURN;
 
 terminal String ID;
 terminal String STR;
@@ -20,7 +29,6 @@ terminal double FLOATLIT;
 non terminal Program program;
 non terminal StmtList stmtList;
 non terminal Stmt stmt;
-non terminal Decl decl;
 non terminal Asn asn;
 non terminal ReadVar readVar;
 non terminal PrintVar printVar;
@@ -28,12 +36,19 @@ non terminal OptionalAsn optionalAsn;
 non terminal Expr expr;
 non terminal BinaryOp binaryOp;
 non terminal Type type;
+non terminal ArgList argList;
+non terminal Arg arg;
+non terminal FunStmt funStmt;
+non terminal FunCall funCall;
+non terminal Params params;
+non terminal StmtList fieldsNMethods;
+non terminal StmtList methodList;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
 
-program ::= stmtList:s
-        {: RESULT = new Program(s);:}
+program ::= fieldsNMethods:f stmtList:s
+        {: RESULT = new Program(f, s);:}
         ;
 
 stmtList ::=
@@ -42,27 +57,64 @@ stmtList ::=
          |
          stmt:s
          {: RESULT = new StmtList(s); :}
-         ;        
+         ;
 
+fieldsNMethods ::=
+     type:t ID:i optionalAsn:o SEMI fieldsNMethods:f
+     {: RESULT = new StmtList(new Decl(t,i,o), f); :}
+     |
+     type:t ID:i LBRKT INTLIT:n RBRKT SEMI fieldsNMethods:f
+     {: RESULT = new StmtList(new Decl(t,i,n), f); :}
+     |
+     type:t ID:i LPAREN argList:a RPAREN LBRACE fieldsNMethods:f stmtList:s RETURN expr:e SEMI RBRACE methodList:m
+     {: RESULT = new StmtList(new Decl(t,i,a,f,s,e), m); :}
+     |
+     VOID ID:i LPAREN argList:a RPAREN LBRACE fieldsNMethods:f stmtList:s RBRACE methodList:m
+     {: RESULT = new StmtList(new Decl(i,a,f,s), m); :}
+     |
+     {: RESULT = null; :}
+     ;
+
+methodList ::=
+     type:t ID:i LPAREN argList:a RPAREN LBRACE fieldsNMethods:f stmtList:s RETURN expr:e SEMI RBRACE methodList:m
+     {: RESULT = new StmtList(new Decl(t,i,a,f,s,e), m); :}
+     |
+     VOID ID:i LPAREN argList:a RPAREN LBRACE fieldsNMethods:f stmtList:s RBRACE methodList:m
+     {: RESULT = new StmtList(new Decl(i,a,f,s), m); :}
+     |
+     {: RESULT = null; :}
+     ;
+
+                
 stmt ::=
      asn:a
      {: RESULT = a; :}
-     |
-     decl:d
-     {: RESULT = d; :}
      |
      readVar:r
      {: RESULT = r; :}
      |
      printVar:p
      {: RESULT = p; :}
+     |
+     funStmt:f
+     {: RESULT = f; :}
      ;
 
-decl ::=
-     type:t ID:i optionalAsn:o SEMI
-     {: RESULT = new Decl(t,i,o); :}
+argList ::=
+     arg:a argList:l
+     {: RESULT = new ArgList(a,l); :}
+     |
+     {: RESULT = null; :}
      ;
 
+arg ::=
+    type:t ID:i
+    {: RESULT = new Arg(t,i,false); :}
+    |
+    type:t ID:i LBRKT RBRKT
+    {: RESULT = new Arg(t,i,true); :}
+    ;
+    
 type ::=
      VAR
      {: RESULT = new Type(false); :}
@@ -79,18 +131,42 @@ asn ::=
 readVar ::=
         READ ID:i SEMI
         {: RESULT = new ReadVar(i); :}
+        |
+        READ ID:i LBRKT expr:e RBRKT SEMI
+        {: RESULT = new ReadVar(i,e); :}
         ; 
 
 printVar ::=
-         PRINT ID:i SEMI
-         {: RESULT = new PrintVar(i); :}
+         PRINT expr:e SEMI
+         {: RESULT = new PrintVar(e); :}
          ;
+         
+funStmt ::=
+        funCall:f SEMI
+        {: RESULT = new FunStmt(f); :}
+        ;
+
+funCall ::=
+        ID:i LPAREN params:p RPAREN
+        {: RESULT = new FunCall(i,p); :}
+        |
+        ID:i LPAREN RPAREN
+        {: RESULT = new FunCall(i); :}
+        ;
+
+params ::=
+       expr:e COMMA params:p
+       {: RESULT = new Params(e,p); :}
+       |
+       expr:e
+       {: RESULT = new Params(e); :}
+       ;
 
 optionalAsn ::=
             EQ expr:e
             {: RESULT = new OptionalAsn(e); :}
             |
-            {: RESULT = new OptionalAsn(); :}
+            {: RESULT = null; :}
             ;
 
 expr ::=
@@ -105,6 +181,12 @@ expr ::=
      |
      ID:i
      {: RESULT = new Expr(i); :}
+     |
+     ID:i LBRKT expr:e RBRKT
+     {: RESULT = new Expr(i,e); :}
+     |
+     funCall:f
+     {: RESULT = new Expr(f); :}
      ;
 
 binaryOp ::=

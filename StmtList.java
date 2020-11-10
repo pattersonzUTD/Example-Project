@@ -27,4 +27,11 @@ class StmtList extends ExampleToken implements Token
     if (stmtList != null)
       stmtList.typeCheck();
   }
+
+  public void execute()
+  {
+    stmt.execute();
+    if (stmtList != null)
+      stmtList.execute();
+  }
 }

@@ -1,20 +1,26 @@
 class PrintVar extends Stmt implements Token
 {
-  String id;
-  public PrintVar(String i)
+  Expr expr;
+  public PrintVar(Expr e)
   {
-    id = i;
+    expr = e;
   }
 
   public String toString(int t)
   {
-    return T(t) + "print " + id + ";" + super.toString(t);
+    return T(t) + "print " + expr.toString(t) + ";" + super.toString(t);
   }
 
   public void typeCheck() throws ExampleException
   {
-    String thisType = table.getType(id);
-    if (thisType.equals(""))
-      throw new ExampleException("Error: " + id + " not declared");
+    FullType t = expr.typeCheck();
+    if (t.isArray)
+      throw new ExampleException("Error: cant print array");
+  }
+
+  public void execute()
+  {
+    System.out.println(expr.execute().toString());
+    System.out.flush();
   }
 }

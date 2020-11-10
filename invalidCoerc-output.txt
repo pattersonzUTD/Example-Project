@@ -1,0 +1,4 @@
+Program:
+	var x;
+	x = 1.0;
+Error: cannot convert varF to var

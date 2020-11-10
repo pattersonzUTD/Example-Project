@@ -16,6 +16,7 @@ import java_cup.runtime.*;
 
 
 
+
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
 class ExampleScanner implements java_cup.runtime.Scanner {
@@ -74,12 +75,13 @@ class ExampleScanner implements java_cup.runtime.Scanner {
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\2\3\1\4\22\0\1\5\1\0"+
-    "\1\6\7\0\1\7\1\10\1\0\1\11\1\0\1\12"+
-    "\12\13\1\0\1\14\1\0\1\15\3\0\32\16\1\0"+
-    "\1\17\4\0\1\20\2\16\1\21\1\22\3\16\1\23"+
-    "\4\16\1\24\1\16\1\25\1\16\1\26\1\16\1\27"+
-    "\1\16\1\30\4\16\12\0\1\3\u01a2\0\2\3\326\0"+
-    "\u0100\3";
+    "\1\6\5\0\1\7\1\10\1\11\1\12\1\13\1\14"+
+    "\1\0\1\15\12\16\1\0\1\17\1\0\1\20\3\0"+
+    "\5\21\1\22\24\21\1\23\1\24\1\25\3\0\1\26"+
+    "\2\21\1\27\1\30\1\31\2\21\1\32\4\21\1\33"+
+    "\1\34\1\35\1\21\1\36\1\21\1\37\1\40\1\41"+
+    "\4\21\1\42\1\0\1\43\7\0\1\3\u01a2\0\2\3"+
+    "\326\0\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -106,12 +108,14 @@ class ExampleScanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\1\1\3\1\4\1\5\1\6"+
-    "\1\7\1\10\1\11\1\12\1\1\3\12\1\0\1\13"+
-    "\2\0\3\12\1\14\2\12\1\15\1\12\1\16\1\17";
+    "\1\0\1\1\2\2\1\1\1\3\1\4\1\5\1\6"+
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\1\1\1\17\3\15\1\20\1\21\2\0\1\22\3\0"+
+    "\1\23\1\15\1\0\4\15\2\23\1\24\3\15\1\25"+
+    "\2\15\1\26\1\15\1\27\1\30\1\31\1\15\1\32";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[30];
+    int [] result = new int[53];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -136,13 +140,16 @@ class ExampleScanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\31\0\31\0\62\0\31\0\31\0\31\0\31"+
-    "\0\113\0\31\0\31\0\144\0\175\0\226\0\257\0\310"+
-    "\0\62\0\31\0\341\0\372\0\u0113\0\u012c\0\u0145\0\31"+
-    "\0\u015e\0\u0177\0\144\0\u0190\0\144\0\144";
+    "\0\0\0\44\0\44\0\110\0\154\0\44\0\44\0\44"+
+    "\0\44\0\44\0\44\0\44\0\220\0\44\0\44\0\264"+
+    "\0\44\0\330\0\44\0\374\0\u0120\0\u0144\0\44\0\44"+
+    "\0\u0168\0\u018c\0\110\0\u01b0\0\u01d4\0\44\0\44\0\u01f8"+
+    "\0\u021c\0\u0240\0\u0264\0\u0288\0\u02ac\0\110\0\u018c\0\110"+
+    "\0\u02d0\0\u02f4\0\u0318\0\u033c\0\u0360\0\u0384\0\u01f8\0\u03a8"+
+    "\0\u01f8\0\u01f8\0\u01f8\0\u03cc\0\u01f8";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[30];
+    int [] result = new int[53];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -165,22 +172,35 @@ class ExampleScanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\2\3\1\0\2\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\1\12\1\13\1\14\1\15\5\14\1\16"+
-    "\1\17\1\14\1\20\31\0\1\21\2\0\3\21\1\22"+
-    "\10\21\1\23\11\21\13\0\1\11\33\0\1\14\1\0"+
-    "\11\14\17\0\1\24\27\0\1\14\1\0\6\14\1\25"+
-    "\2\14\16\0\1\14\1\0\2\14\1\26\6\14\16\0"+
-    "\1\14\1\0\1\27\10\14\6\0\1\21\10\0\1\21"+
-    "\4\0\1\21\2\0\1\21\1\0\2\24\1\30\2\0"+
-    "\24\24\16\0\1\14\1\0\3\14\1\31\5\14\16\0"+
-    "\1\14\1\0\1\32\10\14\16\0\1\14\1\0\6\14"+
-    "\1\33\2\14\16\0\1\14\1\0\4\14\1\34\4\14"+
-    "\16\0\1\14\1\0\1\14\1\35\7\14\16\0\1\14"+
-    "\1\0\7\14\1\36\1\14";
+    "\1\2\1\3\1\4\1\0\1\4\1\3\1\5\1\6"+
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\1\17\2\20\1\21\1\22\1\23\7\20\1\24\1\25"+
+    "\2\20\1\26\1\27\1\30\16\0\1\31\71\0\1\32"+
+    "\2\0\3\32\1\33\7\32\1\34\5\32\1\35\17\32"+
+    "\2\36\3\0\11\36\1\15\3\36\1\37\6\36\1\37"+
+    "\12\36\16\0\1\31\2\0\2\40\3\0\14\40\20\0"+
+    "\1\31\5\0\1\41\35\0\1\31\2\0\2\40\3\0"+
+    "\10\40\1\42\3\40\20\0\1\31\2\0\2\40\3\0"+
+    "\2\40\1\43\11\40\20\0\1\31\2\0\2\40\3\0"+
+    "\1\44\5\40\1\45\5\40\20\0\1\31\3\0\1\46"+
+    "\6\0\1\46\12\0\1\32\2\0\3\32\1\33\15\32"+
+    "\1\35\20\32\2\0\3\32\1\33\7\32\1\34\3\32"+
+    "\1\47\1\32\1\35\4\32\1\47\12\32\6\0\1\32"+
+    "\15\0\1\32\6\0\1\32\3\0\1\32\25\0\2\40"+
+    "\3\0\14\40\2\0\2\41\1\50\2\0\37\41\21\0"+
+    "\2\40\3\0\4\40\1\51\7\40\23\0\2\40\3\0"+
+    "\1\52\10\40\1\53\2\40\23\0\2\40\3\0\10\40"+
+    "\1\54\3\40\23\0\2\40\3\0\4\40\1\55\7\40"+
+    "\23\0\2\40\3\0\5\40\1\56\6\40\23\0\2\40"+
+    "\3\0\1\40\1\57\12\40\23\0\2\40\3\0\12\40"+
+    "\1\60\1\40\23\0\2\40\3\0\3\40\1\61\10\40"+
+    "\23\0\2\40\3\0\1\40\1\62\12\40\23\0\2\40"+
+    "\3\0\11\40\1\63\2\40\23\0\2\40\3\0\10\40"+
+    "\1\64\3\40\23\0\2\40\3\0\5\40\1\65\6\40"+
+    "\2\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[425];
+    int [] result = new int[1008];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -223,11 +243,11 @@ class ExampleScanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\2\11\1\1\4\11\1\1\2\11\5\1\1\0"+
-    "\1\11\2\0\3\1\1\11\6\1";
+    "\1\0\2\1\1\11\24\1\2\0\1\11\3\0\2\1"+
+    "\1\0\4\1\1\11\1\1\1\11\15\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[30];
+    int [] result = new int[53];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -725,77 +745,132 @@ Symbol newSym(int tokenId, Object value) {
                     "' line: " + yyline + ", column: " + yychar);
             }
             // fall through
-          case 16: break;
+          case 27: break;
           case 2:
             { /* Ignore whitespace. */
             }
             // fall through
-          case 17: break;
-          case 3:
-            { return newSym(sym.TIMES, "*");
-            }
-            // fall through
-          case 18: break;
-          case 4:
-            { return newSym(sym.PLUS, "+");
-            }
-            // fall through
-          case 19: break;
-          case 5:
-            { return newSym(sym.MINUS, "-");
-            }
-            // fall through
-          case 20: break;
-          case 6:
-            { return newSym(sym.DIVIDE, "/");
-            }
-            // fall through
-          case 21: break;
-          case 7:
-            { return newSym(sym.INTLIT, new Integer(yytext()));
-            }
-            // fall through
-          case 22: break;
-          case 8:
-            { return newSym(sym.SEMI, ";");
-            }
-            // fall through
-          case 23: break;
-          case 9:
-            { return newSym(sym.EQ, "=");
-            }
-            // fall through
-          case 24: break;
-          case 10:
-            { return newSym(sym.ID, yytext());
-            }
-            // fall through
-          case 25: break;
-          case 11:
-            { return newSym(sym.STR, new String(yytext()));
-            }
-            // fall through
-          case 26: break;
-          case 12:
-            { /* For this stand-alone lexer, print out comments. */
-            }
-            // fall through
-          case 27: break;
-          case 13:
-            { return newSym(sym.VAR, "var");
-            }
-            // fall through
           case 28: break;
-          case 14:
-            { return newSym(sym.READ, "read");
+          case 3:
+            { return newSym(sym.LPAREN, "(");
             }
             // fall through
           case 29: break;
-          case 15:
-            { return newSym(sym.PRINT, "print");
+          case 4:
+            { return newSym(sym.RPAREN, ")");
             }
             // fall through
           case 30: break;
+          case 5:
+            { return newSym(sym.TIMES, "*");
+            }
+            // fall through
+          case 31: break;
+          case 6:
+            { return newSym(sym.PLUS, "+");
+            }
+            // fall through
+          case 32: break;
+          case 7:
+            { return newSym(sym.COMMA, ",");
+            }
+            // fall through
+          case 33: break;
+          case 8:
+            { return newSym(sym.MINUS, "-");
+            }
+            // fall through
+          case 34: break;
+          case 9:
+            { return newSym(sym.DIVIDE, "/");
+            }
+            // fall through
+          case 35: break;
+          case 10:
+            { return newSym(sym.INTLIT, new Integer(yytext()));
+            }
+            // fall through
+          case 36: break;
+          case 11:
+            { return newSym(sym.SEMI, ";");
+            }
+            // fall through
+          case 37: break;
+          case 12:
+            { return newSym(sym.EQ, "=");
+            }
+            // fall through
+          case 38: break;
+          case 13:
+            { return newSym(sym.ID, yytext());
+            }
+            // fall through
+          case 39: break;
+          case 14:
+            { return newSym(sym.LBRKT, "[");
+            }
+            // fall through
+          case 40: break;
+          case 15:
+            { return newSym(sym.RBRKT, "]");
+            }
+            // fall through
+          case 41: break;
+          case 16:
+            { return newSym(sym.LBRACE, "{");
+            }
+            // fall through
+          case 42: break;
+          case 17:
+            { return newSym(sym.RBRACE, "}");
+            }
+            // fall through
+          case 43: break;
+          case 18:
+            { return newSym(sym.STR, new String(yytext()));
+            }
+            // fall through
+          case 44: break;
+          case 19:
+            { return newSym(sym.FLOATLIT, new Double(yytext().substring(0,yytext().length()-1)));
+            }
+            // fall through
+          case 45: break;
+          case 20:
+            { /* For this stand-alone lexer, print out comments. */
+            }
+            // fall through
+          case 46: break;
+          case 21:
+            { return newSym(sym.VAR, "var");
+            }
+            // fall through
+          case 47: break;
+          case 22:
+            { return newSym(sym.READ, "read");
+            }
+            // fall through
+          case 48: break;
+          case 23:
+            { return newSym(sym.VARF, "varf");
+            }
+            // fall through
+          case 49: break;
+          case 24:
+            { return newSym(sym.VOID, "void");
+            }
+            // fall through
+          case 50: break;
+          case 25:
+            { return newSym(sym.PRINT, "print");
+            }
+            // fall through
+          case 51: break;
+          case 26:
+            { return newSym(sym.RETURN, "return");
+            }
+            // fall through
+          case 52: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

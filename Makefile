@@ -13,10 +13,12 @@ default: run
 				$(JAVAC) -cp $(CP) $*.java
 
 FILE=		ExampleScanner.java      parser.java    sym.java \
-				ExampleTypeCheckerTest.java \
+				ExampleTypeCheckerTest.java ExampleParserTest.java \
 				Asn.java Decl.java Expr.java OptionalAsn.java \
 				PrintVar.java Program.java ReadVar.java Stmt.java \
-				StmtList.java Token.java BinaryOp.java Type.java
+				StmtList.java Token.java BinaryOp.java Type.java \
+				ArgList.java Arg.java FunCall.java FunStmt.java \
+				Params.java FullType.java Pair.java ExampleInterpretTest.java
 
 dump: parserD.java $(FILE:java=class)
 
@@ -38,9 +40,9 @@ invalidRedef.txt: all
 		$(JAVA) -cp $(CP) ExampleTypeCheckerTest invalidRedef.txt > invalidRedef-output.txt
 		cat -n invalidRedef-output.txt
 
-invalidRedef.txt: all
-		$(JAVA) -cp $(CP) ExampleTypeCheckerTest invalidRedef.txt > invalidRedef-output.txt
-		cat -n invalidRedef-output.txt
+invalidCoerc.txt: all
+		$(JAVA) -cp $(CP) ExampleTypeCheckerTest invalidCoerc.txt > invalidCoerc-output.txt
+		cat -n invalidCoerc-output.txt
 
 undefUse.txt: all
 		$(JAVA) -cp $(CP) ExampleTypeCheckerTest undefUse.txt > undefUse-output.txt
@@ -49,6 +51,18 @@ undefUse.txt: all
 validCoerc.txt: all
 		$(JAVA) -cp $(CP) ExampleTypeCheckerTest validCoerc.txt > validCoerc-output.txt
 		cat -n validCoerc-output.txt
+
+parseTest: all
+		$(JAVA) -cp $(CP) ExampleParserTest fullProg.txt > fullProg-output.txt
+		cat -n fullProg-output.txt
+
+tcTest: all
+		$(JAVA) -cp $(CP) ExampleTypeCheckerTest fullProg.txt > fullProg-output.txt
+		cat -n fullProg-output.txt
+
+intTest: all
+		$(JAVA) -cp $(CP) ExampleInterpretTest fullProg.txt > fullProg-output.txt
+		cat -n fullProg-output.txt
 
 all: ExampleScanner.java parser.java $(FILE:java=class)
 

@@ -1,47 +1,66 @@
-import java.util.Vector;
+import java.util.ArrayList;
 
 class VarTable
 {
-  class Pair
-  {
-    String key, value;
-    public Pair(String a, String b)
-    {
-      key = a;
-      value = b;
-    }
-    public String getKey()
-    {
-      return key;
-    }
-    public String getValue()
-    {
-      return value;
-    }
-  }
-  Vector<Pair> table;
+  ArrayList<ArrayList<Pair<String,FullType>>> table;
   public VarTable()
   {
-    table = new Vector<Pair>();
+    table = new ArrayList<ArrayList<Pair<String,FullType>>>();
+    table.add(new ArrayList<Pair<String,FullType>>());
   }
-  public String getType(String s)
+  public FullType getType(String s)
   {
-    for (Pair p : table)
+    for (int i = table.size()-1; i >= 0; --i)
+      for (Pair<String,FullType> p : table.get(i))
       {
         if (p.getKey().equals(s))
           return p.getValue();
       }
-    return "";
+    return null;
   }
-  public boolean add(String id, String t)
+  
+  public boolean add(String id, FullType t)
   {
-    for (Pair p : table)
+    for (Pair<String,FullType> p : table.get(table.size()-1))
       {
         if (p.getKey().equals(id))
           return false;
       }
-    table.add(new Pair(id,t));
+    table.get(table.size()-1).add(new Pair<String,FullType>(id,t));
+    
     return true;
   }
   
+  public boolean addFun(String id, FullType t)
+  {
+    for (Pair<String,FullType> p : table.get(table.size()-2))
+      {
+        if (p.getKey().equals(id))
+          return false;
+      }
+    table.get(table.size()-2).add(new Pair<String,FullType>(id,t));
+    
+    return true;
+  }
+  
+  public void enterScope()
+  {
+    table.add( new ArrayList<Pair<String,FullType>>());
+  }
+  public void exitScope()
+  {
+    table.remove(table.size()-1);
+  }
+  public String toString()
+  {
+    String ret = "";
+    String t = "";
+    for (ArrayList<Pair<String,FullType>> v : table)
+      {
+        for (Pair<String,FullType> p : v)
+          ret += t + p.getKey() + " " + p.getValue().toString() + "\n";
+        t += "\t";
+      }
+    return ret;
+  }
 }

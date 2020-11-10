@@ -69,7 +69,16 @@ print		           { return newSym(sym.PRINT, "print"); }
 "/"                { return newSym(sym.DIVIDE, "/"); }
 "="                { return newSym(sym.EQ, "="); }
 ";"                { return newSym(sym.SEMI, ";"); }
+"("                { return newSym(sym.LPAREN, "("); }
+")"                { return newSym(sym.RPAREN, ")"); }
+","                { return newSym(sym.COMMA, ","); }
+"{"                { return newSym(sym.LBRACE, "{"); }
+"}"                { return newSym(sym.RBRACE, "}"); }
+"["                { return newSym(sym.LBRKT, "["); }
+"]"                { return newSym(sym.RBRKT, "]"); }
+void               { return newSym(sym.VOID, "void"); }
 var		             { return newSym(sym.VAR, "var"); }
+return             { return newSym(sym.RETURN, "return"); }
 varf               { return newSym(sym.VARF, "varf"); }
 {id}               { return newSym(sym.ID, yytext()); }
 {intlit}           { return newSym(sym.INTLIT, new Integer(yytext())); }

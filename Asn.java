@@ -2,6 +2,7 @@ class Asn extends Stmt implements Token
 {
   String id;
   Expr expr;
+  FullType datum;
   public Asn(String i, Expr e)
   {
     id = i;
@@ -15,12 +16,18 @@ class Asn extends Stmt implements Token
 
   public void typeCheck() throws ExampleException
   {
-    String thisType = table.getType(id);
-    if (thisType.equals(""))
+    FullType thisType = table.getType(id);
+    datum = thisType;
+    if (thisType == null)
       throw new ExampleException("Error: " + id + " not declared");
       
-    String exprType = expr.typeCheck();
-    if (thisType.equals("var") && thisType.equals("varf"))
-      throw new ExampleException("Error: cannot convert varF to var");
+    FullType exprType = expr.typeCheck();
+    if (!thisType.isAble(exprType))
+      throw new ExampleException("Error: incompatible types");
+  }
+
+  public void execute()
+  {
+    datum.value = expr.execute();
   }
 }
