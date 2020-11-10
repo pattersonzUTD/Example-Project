@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 class Asn extends Stmt implements Token
 {
   String id;
@@ -28,6 +29,12 @@ class Asn extends Stmt implements Token
 
   public void execute()
   {
-    datum.value = expr.execute();
+    Object o = expr.execute();
+    if (o instanceof Integer)
+      datum.value = new Integer((Integer)o);
+    if (o instanceof Float)
+      datum.value = new Float((Float)o);
+    if (o instanceof ArrayList)
+      datum.value = o;
   }
 }

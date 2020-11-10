@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 class Arg extends ExampleToken implements Token
 {
   Type type;
@@ -30,6 +31,11 @@ class Arg extends ExampleToken implements Token
 
   public void execute(Object o)
   {
-    datum.value = o;
+    if (o instanceof Integer)
+      datum.value = new Integer((Integer)o);
+    if (o instanceof Float)
+      datum.value = new Float((Float)o);
+    if (o instanceof ArrayList)
+      datum.value = o;
   }
 }

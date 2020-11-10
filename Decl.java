@@ -152,7 +152,13 @@ class Decl extends Stmt implements Token
   {
     if (asn != null)
       {
-        datum.value = asn.execute();
+        Object o = asn.execute();
+        if (o instanceof Integer)
+          datum.value = new Integer((Integer)o);
+        if (o instanceof Float)
+          datum.value = new Float((Float)o);
+        if (o instanceof ArrayList)
+          datum.value = o;
       }
   }
 
